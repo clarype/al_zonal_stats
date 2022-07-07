@@ -70,8 +70,12 @@ def make_run_params(shp,ras_list):
 
     # read in shp file as geo dataframe
     shp_gpd = gpd.read_file(shp)
+
+    # split dataframe into list of datafames based on year values
     dict_of_regions = {k: v for k, v in shp_gpd.groupby('year')}
-    print(dict_of_regions[2018])
+    #print(dict_of_regions[2018])
+
+
 
     return 0
 
