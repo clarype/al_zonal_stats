@@ -71,13 +71,28 @@ def make_run_params(shp,ras_list):
     # read in shp file as geo dataframe
     shp_gpd = gpd.read_file(shp)
 
-    # split dataframe into list of datafames based on year values
+    # split geo dataframe into list of datafames based on year values
     dict_of_regions = {k: v for k, v in shp_gpd.groupby('year')}
-    #print(dict_of_regions[2018])
+
+    param = []
+
+    # loop over dic of dataframes and add the dataframe to a dictionary of parameters
+    for i in dict_of_regions:
+
+
+        # calculate the band value from the year of the dataframe
+        band = list(range(1990,2019+1)).index(i)+1
+
+        for e in ras_list:
+
+            tempdic = e.copy()
+            tempdic['df'] = dict_of_regions[i]
+            tempdic['band'] = band
+            print(tempdic)
 
 
 
-    return 0
+    return dict_of_regions
 
 def main():
 
