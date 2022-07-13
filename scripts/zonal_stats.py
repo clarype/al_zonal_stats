@@ -8,6 +8,7 @@ This program run zonal stats on raster images
 import pandas as pd
 import geopandas as gpd
 import sys
+from multiprocessing import Pool
 
 
 def get_raster_info(csv_path):
@@ -83,16 +84,27 @@ def make_run_params(shp,ras_list):
         # calculate the band value from the year of the dataframe
         band = list(range(1990,2019+1)).index(i)+1
 
+        # loop over raster info and make parameter dic and append to list of params
         for e in ras_list:
 
+            # make copy of dictionary
             tempdic = e.copy()
+
+            # add dataframe to dic copy
             tempdic['df'] = dict_of_regions[i]
+
+            # add band value to dic. the band value is calculated for the year value in the dataframe
             tempdic['band'] = band
-            print(tempdic)
 
+            # add mutated dic to list
+            param.append(tempdic)
 
+    # return list of dics
+    return param
 
-    return dict_of_regions
+def get_zonals(param):
+    for i in param:
+        print(param[i])
 
 def main():
 
@@ -110,6 +122,11 @@ def main():
 
     # get shp file and add there file path to raster info
     param_list = make_run_params(shpPath, mutated_raster_info)
+
+    # run zonal stats
+    with Pool(5) as p:
+        p.map(get_zonals, param_list)
+
 
 if __name__ == "__main__":
     main()
