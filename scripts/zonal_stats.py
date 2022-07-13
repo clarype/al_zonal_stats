@@ -94,11 +94,13 @@ def make_run_params(shp,ras_list):
             tempdic['df'] = dict_of_regions[i]
 
             # add band value to dic. the band value is calculated for the year value in the dataframe
-            tempdic['band_zonal'] = band - tempdic['band_move']
+            #################### ADD logic for post and pre band calculation
+
+            tempdic['band_zonal'] = band - int(tempdic['band_move'])
 
             tempdic['df_year'] = i
 
-            tempdic['df_band']
+            tempdic['df_band'] = band
 
             # add mutated dic to list
             param.append(tempdic)
