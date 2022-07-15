@@ -84,6 +84,9 @@ def make_run_params(shp,ras_list):
         # calculate the band value from the year of the dataframe
         band = list(range(1990,2019+1)).index(i)+1
 
+        max_band = list(range(1990,2019+1)).index(max(list(range(1990,2019+1))))
+        min_band = 1
+
         # loop over raster info and make parameter dic and append to list of params
         for e in ras_list:
 
@@ -96,7 +99,20 @@ def make_run_params(shp,ras_list):
             # add band value to dic. the band value is calculated for the year value in the dataframe
             #################### ADD logic for post and pre band calculation
 
-            tempdic['band_zonal'] = band - int(tempdic['band_move'])
+            if tempdic['pose'] == 'pst':
+                play_band = band + int(tempdic['band_move'])
+                if play_band <= max_band:
+                    tempdic['band_zonal'] = band + int(tempdic['band_move'])
+                else:
+                    continue
+            elif tempdic['pose'] == 'pre':
+                play_band = band - int(tempdic['band_move'])
+                if play_band >= min_band:
+                    tempdic['band_zonal'] = band - int(tempdic['band_move'])
+                else:
+                    continue
+            else:
+                tempdic['band_zonal'] = band
 
             tempdic['df_year'] = i
 
@@ -110,7 +126,7 @@ def make_run_params(shp,ras_list):
 
 def get_zonals(param):
     for i in param:
-        print(param[i])
+        print(i,param[i])
 
 def main():
 
@@ -128,10 +144,11 @@ def main():
 
     # get shp file and add there file path to raster info
     param_list = make_run_params(shpPath, mutated_raster_info)
+    print(param_list)
 
     # run zonal stats
-    with Pool(5) as p:
-        p.map(get_zonals, param_list)
+    #with Pool(5) as p:
+        #p.map(get_zonals, param_list)
 
 
 if __name__ == "__main__":
