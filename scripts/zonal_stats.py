@@ -9,7 +9,9 @@ import pandas as pd
 import geopandas as gpd
 import sys
 from multiprocessing import Pool
-
+from rasterstats import zonal_stats
+import json
+import os
 
 def get_raster_info(csv_path):
     # column names
@@ -125,8 +127,47 @@ def make_run_params(shp,ras_list):
     return param
 
 def get_zonals(param):
-    for i in param:
-        print(i,param[i])
+
+
+    # temp !! this should be removed later as the csv should have full paths
+    dirPath = "D:\\v1\\al_nps\\MISS\\"
+    if not os.path.exists(dirPath+"temp\\"):
+        os.makedirs(dirPath+"temp\\")
+
+    # make csv file path
+    shpfilepath = dirPath+"temp\\"+param['name'] +param['band_move']+"_"+str(param['df_year'])+".shp"
+
+    # look for csv file path
+    if os.path.exists(shpfilepath):
+
+        #  read file
+        tempshp = gpd.read_file(shpfilepath)
+        print("--------")
+        # if last row is complete break out
+        if tempshp.iloc[-1][0] == None:
+            print(111)
+            return
+
+
+    # if not continue to zonal
+
+    print(param)
+    stats = zonal_stats(param['df'], dirPath+param['path'], geojson_out=True, band=param['band_zonal'])
+
+    geoJson = {"type": "FeatureCollection", "features": stats}
+    json_object = json.dumps(geoJson)
+    gdf = gpd.read_file(json_object)
+    gdfreNamed = gdf.rename(columns={'min': param['name'] +param['band_move']+ '_min', 'max': param['name'] +param['band_move']+ '_max', 'mean': param['name'] +param['band_move']+ '_mean', 'count': param['name'] +param['band_move']+ '_count'})
+    #print(gdfreNamed)
+    width = gdfreNamed.shape[1]
+
+    gdfreNamed.loc[len(gdfreNamed.index)] = [None] * width
+    #print(gdfreNamed)
+    gdfreNamed.to_file(shpfilepath)
+    # calculate STDv <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # add  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    return gdfreNamed
 
 def main():
 
@@ -136,6 +177,8 @@ def main():
     # shp file path
     shpPath = "D:\\v1\\al_nps\\MISS\\miss_vector\\MISS_true_dist\\miss_true_disturbances.shp"
 
+
+
     # get raster info as a python dictionary
     raster_info = get_raster_info(csvPath)
 
@@ -144,11 +187,13 @@ def main():
 
     # get shp file and add there file path to raster info
     param_list = make_run_params(shpPath, mutated_raster_info)
-    print(param_list)
+    # print(param_list)
+
+
 
     # run zonal stats
-    #with Pool(5) as p:
-        #p.map(get_zonals, param_list)
+    with Pool(5) as p:
+        p.map(get_zonals, param_list)
 
 
 if __name__ == "__main__":
