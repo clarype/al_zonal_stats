@@ -12,6 +12,8 @@ from multiprocessing import Pool
 from rasterstats import zonal_stats
 import json
 import os
+import glob
+
 
 def get_raster_info(csv_path):
     # column names
@@ -152,22 +154,44 @@ def get_zonals(param):
     # if not continue to zonal
 
     print(param['name'],param['pose'],param['df_year'],param['df_band'],param['band_move'],param['band_zonal'])
-    stats = zonal_stats(param['df'], dirPath+param['path'], geojson_out=True, band=param['band_zonal'])
+    stats = zonal_stats(param['df'], dirPath+param['path'], geojson_out=True, band=param['band_zonal'],stats=['min', 'max', 'mean', 'count','std'])
 
     geoJson = {"type": "FeatureCollection", "features": stats}
     json_object = json.dumps(geoJson)
     gdf = gpd.read_file(json_object)
-    gdfreNamed = gdf.rename(columns={'min': param['name'] +param['band_move']+ '_min', 'max': param['name'] +param['band_move']+ '_max', 'mean': param['name'] +param['band_move']+ '_mean', 'count': param['name'] +param['band_move']+ '_count'})
-    #print(gdfreNamed)
+    gdfreNamed = gdf.rename(columns={'min': param['name'] +param['band_move']+ '_min', 'max': param['name'] +param['band_move']+ '_max', 'mean': param['name'] +param['band_move']+ '_mean', 'count': param['name'] +param['band_move']+ '_count','std': param['name'] +param['band_move']+ '_std'})
+    # calculate STDv <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # add  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     width = gdfreNamed.shape[1]
 
     gdfreNamed.loc[len(gdfreNamed.index)] = [None] * width
     #print(gdfreNamed)
     gdfreNamed.to_file(shpfilepath)
-    # calculate STDv <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    # add  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
     return gdfreNamed
+
+def get_temp_shp(path):
+
+    list_of_all_shp = glob.glob(path+"*.shp")
+    temp_list = []
+    for i in list_of_all_shp:
+        temp_list.append(int(i[-8:-4]))
+
+    listmax = max(temp_list)
+    listmin = min(temp_list)
+
+    list_of_shpLists = []
+
+    for e in range(listmin, listmax+1):
+        temp = []
+        for ee in list_of_all_shp:
+            if str(e) in ee:
+                temp.append(ee)
+        list_of_shpLists.append(temp)
+
+    print(list_of_shpLists)
+    return 0
 
 def main():
 
@@ -195,6 +219,11 @@ def main():
     with Pool(5) as p:
         p.map(get_zonals, param_list)
 
+    # merge shpfile on year ... adding feilds of zonal stats
+    dir = "D:\\v1\\al_nps\\MISS\\temp\\"
+    list_of_shp = get_temp_shp(dir)
+
+    # append merged dataframes of together
 
 if __name__ == "__main__":
     main()
