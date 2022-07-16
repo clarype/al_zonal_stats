@@ -145,13 +145,13 @@ def get_zonals(param):
         print("--------")
         # if last row is complete break out
         if tempshp.iloc[-1][0] == None:
-            print(111)
+            print(shpfilepath,' exists')
             return
 
 
     # if not continue to zonal
 
-    print(param)
+    print(param['name'],param['pose'],param['df_year'],param['df_band'],param['band_move'],param['band_zonal'])
     stats = zonal_stats(param['df'], dirPath+param['path'], geojson_out=True, band=param['band_zonal'])
 
     geoJson = {"type": "FeatureCollection", "features": stats}
