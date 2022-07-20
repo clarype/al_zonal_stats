@@ -13,6 +13,7 @@ from rasterstats import zonal_stats
 import json
 import os
 import glob
+from functools import reduce
 
 
 def get_raster_info(csv_path):
@@ -160,8 +161,7 @@ def get_zonals(param):
     json_object = json.dumps(geoJson)
     gdf = gpd.read_file(json_object)
     gdfreNamed = gdf.rename(columns={'min': param['name'] +param['band_move']+ '_min', 'max': param['name'] +param['band_move']+ '_max', 'mean': param['name'] +param['band_move']+ '_mean', 'count': param['name'] +param['band_move']+ '_count','std': param['name'] +param['band_move']+ '_std'})
-    # calculate STDv <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    # add  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
     width = gdfreNamed.shape[1]
 
     gdfreNamed.loc[len(gdfreNamed.index)] = [None] * width
@@ -190,8 +190,25 @@ def get_temp_shp(path):
                 temp.append(ee)
         list_of_shpLists.append(temp)
 
-    print(list_of_shpLists)
-    return 0
+
+    return list_of_shpLists
+
+def merge_shpfiles(list_of_shpfiles):
+
+    dirPath = "D:\\v1\\al_nps\\MISS\\temp2\\"
+    if not os.path.exists(dirPath):
+        os.makedirs(dirPath)
+
+    gdf_list = []
+
+    for shp in list_of_shpfiles:
+        df_1 = gpd.read_file(shp)
+        gdf_list.append(df_1)
+
+
+    rdf = reduce(lambda x, y: pd.merge(x, y, on = ['id','Shape_Area','Shape_Leng','UNIQUE','annualID','change_occ','uniqID','year','geometry']), gdf_list)
+    rdf.to_file(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
+    print(rdf)
 
 def main():
 
@@ -202,7 +219,6 @@ def main():
     shpPath = "D:\\v1\\al_nps\\MISS\\miss_vector\\MISS_true_dist\\miss_true_disturbances.shp"
 
 
-
     # get raster info as a python dictionary
     raster_info = get_raster_info(csvPath)
 
@@ -211,18 +227,22 @@ def main():
 
     # get shp file and add there file path to raster info
     param_list = make_run_params(shpPath, mutated_raster_info)
-    # print(param_list)
-
-
 
     # run zonal stats
     with Pool(5) as p:
         p.map(get_zonals, param_list)
 
-    # merge shpfile on year ... adding feilds of zonal stats
     dir = "D:\\v1\\al_nps\\MISS\\temp\\"
-    list_of_shp = get_temp_shp(dir)
 
+    # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
+    list_of_shp = get_temp_shp(dir)
+    #print(list_of_shp)
+
+    # map over list of lists and merge shp files
+    merge_shpfiles(list_of_shp[0])
+    with Pool(5) as p:
+        p.map(merge_shpfiles,list_of_shp)
+    # merge shpfile on year ... adding feilds of zonal stats
     # append merged dataframes of together
 
 if __name__ == "__main__":
