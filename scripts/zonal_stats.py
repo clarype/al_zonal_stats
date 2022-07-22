@@ -77,19 +77,19 @@ def make_run_params(shp,ras_list):
     # read in shp file as geo dataframe
     shp_gpd = gpd.read_file(shp)
 
-    # split geo dataframe into list of datafames based on year values
+    # split geo dataframe into list of dataframes based on year values
     dict_of_regions = {k: v for k, v in shp_gpd.groupby('year')}
 
     param = []
 
     # loop over dic of dataframes and add the dataframe to a dictionary of parameters
     for i in dict_of_regions:
-
+        print('index',i)
 
         # calculate the band value from the year of the dataframe
-        band = list(range(1990,2019+1)).index(i)+1
-
-        max_band = list(range(1990,2019+1)).index(max(list(range(1990,2019+1))))
+        band = list(range(1985,2020+1)).index(i)
+        print('band',band)
+        max_band = list(range(1985,2020+1)).index(max(list(range(1990,2019+1))))
         min_band = 1
 
         # loop over raster info and make parameter dic and append to list of params
@@ -133,7 +133,7 @@ def get_zonals(param):
 
 
     # temp !! this should be removed later as the csv should have full paths
-    dirPath = "D:\\v1\\al_nps\\MISS\\"
+    dirPath = "D:\\v1\\al_nps\\MISS\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     if not os.path.exists(dirPath+"temp\\"):
         os.makedirs(dirPath+"temp\\")
 
@@ -195,14 +195,15 @@ def get_temp_shp(path):
 
 def merge_shpfiles(list_of_shpfiles):
 
-    dirPath = "D:\\v1\\al_nps\\MISS\\temp2\\"
+    dirPath = "D:\\v1\\al_nps\\MISS\\temp2\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     if not os.path.exists(dirPath):
         os.makedirs(dirPath)
 
     gdf_list = []
 
     for shp in list_of_shpfiles:
-        df_1 = gpd.read_file(shp)
+        df_1 = gpd.read_file(shp)#.crs =4269
+        print(df_1.crs)
         gdf_list.append(df_1)
 
 
@@ -213,10 +214,10 @@ def merge_shpfiles(list_of_shpfiles):
 def main():
 
     # csv file path
-    csvPath = "D:\\v1\\al_nps\\MISS\\miss_attributes.csv"
+    csvPath = "D:\\v1\\al_nps\\MISS\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
-    shpPath = "D:\\v1\\al_nps\\MISS\\miss_vector\\MISS_true_dist\\miss_true_disturbances.shp"
+    shpPath = "D:\\v1\\al_nps\\MISS\\miss_vector\\MISS_true_dist\\miss_true_disturbances.shp" #<<<<<<<<<<<<<
 
 
     # get raster info as a python dictionary
@@ -232,7 +233,7 @@ def main():
     with Pool(5) as p:
         p.map(get_zonals, param_list)
 
-    dir = "D:\\v1\\al_nps\\MISS\\temp\\"
+    dir = "D:\\v1\\al_nps\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
     list_of_shp = get_temp_shp(dir)
@@ -242,8 +243,8 @@ def main():
     merge_shpfiles(list_of_shp[0])
     with Pool(5) as p:
         p.map(merge_shpfiles,list_of_shp)
-    # merge shpfile on year ... adding feilds of zonal stats
-    # append merged dataframes of together
+
+    # Merge all year shp files back together.... Each year has different numbers of rows...
 
 if __name__ == "__main__":
     main()
