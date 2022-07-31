@@ -1,8 +1,6 @@
-'''
-This program run zonal stats on raster images
 
+#This program run zonal stats on raster images
 
-'''
 
 # import
 import pandas as pd
