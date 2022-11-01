@@ -1,6 +1,7 @@
 
 ##This program run zonal stats on raster images
 
+
 # import
 import pandas as pd
 import geopandas as gpd
@@ -70,7 +71,7 @@ def mutate_dic(ras_info):
 
     return out_dic_list
 
-def make_run_params(shp,ras_list,startYear,endYear,root):
+def make_run_params(shp,ras_list,startYear,endYear):
 
     # read in shp file as geo dataframe
     shp_gpd = gpd.read_file(shp)
@@ -86,8 +87,11 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
         print('index',i)
 
         # calculate the band value from the year of the dataframe
-        band = list(range(startYear,endYear+1)).index(i)
-        max_band = list(range(startYear,endYear+1)).index(max(list(range(startYear,endYear+1))))
+        band = list(range(1985,2020+1)).index(i)
+        max_band = list(range(1985,2020+1)).index(max(list(range(1990,2019+1))))
+        
+        #band = list(range(1985,2020+1)).index(i)
+        #max_band = list(range(1985,2020+1)).index(max(list(range(1990,2019+1))))
         min_band = 1
 
         # loop over raster info and make parameter dic and append to list of params
@@ -98,7 +102,6 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
 
             # add dataframe to dic copy
             tempdic['df'] = dict_of_regions[i]
-            tempdic['root'] = root
 
             # add band value to dic. the band value is calculated for the year value in the dataframe
             # ADD logic for post and pre band calculation
@@ -129,14 +132,17 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
     return param
 
 def get_zonals(param):
+
+
     # temp !! this should be removed later as the csv should have full paths
-    dirPath = param['root'] #"E:\\v1\\al_nps\\MISS\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    if not os.path.exists(dirPath):
-        os.makedirs(dirPath)
+    dirPath = "E:\\v1\\al_nps\\MISS\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    #dirPath = "/media/vol/v1/al_nps/MISS/" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    if not os.path.exists(dirPath+"temp6\\"):
+        os.makedirs(dirPath+"temp6\\")
 
     # make csv file path
-    shpfilepath = dirPath+param['name'] +param['band_move']+"_"+str(param['df_year'])+".shp"
-   
+    #shpfilepath = dirPath+"temp6\\"+param['name'] +param['band_move']+"_"+str(param['df_year'])+".shp"
+    shpfilepath = dirPath+"temp6/"+param['name'] +param['band_move']+"_"+str(param['df_year'])+".shp"
 
     # look for csv file path
     if os.path.exists(shpfilepath):
@@ -166,8 +172,9 @@ def get_zonals(param):
     width = gdfreNamed.shape[1]
 
     gdfreNamed.loc[len(gdfreNamed.index)] = [None] * width
-
+    #print(gdfreNamed)
     gdfreNamed.to_file(shpfilepath,)
+
 
     return gdfreNamed
 
@@ -175,6 +182,7 @@ def get_temp_shp(path):
 
     list_of_all_shp = glob.glob(path+"*_*_*.shp")
     temp_list = []
+    print(list_of_all_shp)
     for i in list_of_all_shp:
         temp_list.append(int(i[-8:-4]))
 
@@ -196,14 +204,16 @@ def get_temp_shp(path):
 def merge_shpfiles(list_of_shpfiles):
 
     dirPath = "E:\\v1\\al_nps\\MISS\\temp6\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    #dirPath = "/media/vol/v1/al_nps/MISS/temp6/" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     if not os.path.exists(dirPath):
         os.makedirs(dirPath)
 
     gdf_list = []
-
+    print("sdf")
+    print(list_of_shpfiles)
     for shp in list_of_shpfiles:
         df_1 = gpd.read_file(shp)#.crs =4269
-        #print(df_1.crs)
+        print(df_1.crs)
         gdf_list.append(df_1)
 
 
@@ -215,11 +225,15 @@ def main():
 
     # csv file path
     csvPath = "E:\\v1\\al_nps\\MISS\\miss_attributes4.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    #csvPath = "/media/vol/v1/al_nps/MISS/miss_attributes4.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
+    #shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector\\MISS_true_dist\\miss_true_disturbances.shp" #<<<<<<<<<<<<<
     shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector_5070\\miss_true_disturbances.shp" #<<<<<<<<<<<<<
+    #shpPath = "/media/vol/v1/al_nps/MISS/miss_vector_5070/miss_true_disturbances.shp" #<<<<<<<<<<<<<
 
     dir = "E:\\v1\\al_nps\\MISS\\temp6\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    #dir = "/media/vol/v1/al_nps/MISS/temp6/" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # get raster info as a python dictionary
     raster_info = get_raster_info(csvPath)
@@ -229,10 +243,9 @@ def main():
     #print(mutated_raster_info[5])
 
     # get shp file and add there file path to raster info
-    param_list = make_run_params(shpPath, mutated_raster_info,1985,2020,dir)
-
-
-    #print(param_list)
+    param_list = make_run_params(shpPath, mutated_raster_info,1985,1990)
+    print(param_list)
+   
     #get_zonals(param_list[0])
     # run zonal stats
     with Pool(10) as p:
@@ -240,11 +253,12 @@ def main():
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
     list_of_shp = get_temp_shp(dir)
-    #print(list_of_shp)
+    print(list_of_shp)
+    
 
     # map over list of lists and merge shp files
     #print(list_of_shp)
-    #merge_shpfiles(list_of_shp[0]) # manual tester
+    #merge_shpfiles(list_of_shp) # manual tester
     
     with Pool(5) as p:
         p.map(merge_shpfiles,list_of_shp)
