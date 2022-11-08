@@ -14,11 +14,7 @@ from functools import reduce
 
 
 def get_raster_info(csv_path):
-    # column names
-    #header_list = ['path','name','theme','time','pose','dype','band_move','run']
-
-    # read csv file as dataframe and add column names and change band_move string to list of strings
-    #df = pd.read_csv(csv_path, names=header_list, converters={'band_move': lambda x: x.split('|')})
+    # read csv file as dataframe
     df = pd.read_csv(csv_path, converters={'band_move': lambda x: x.split('|')})
 
     # edit dataframe - keep only rows to run
@@ -130,7 +126,7 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
 
 def get_zonals(param):
     # temp !! this should be removed later as the csv should have full paths
-    dirPath = param['root'] #"E:\\v1\\al_nps\\MISS\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    dirPath = param['root']
     if not os.path.exists(dirPath):
         os.makedirs(dirPath)
 
@@ -158,7 +154,7 @@ def get_zonals(param):
     geoJson = {"type": "FeatureCollection", "features": stats}
     json_object = json.dumps(geoJson)
     gdf = gpd.read_file(json_object)
-    if param['time'] == 'annual':
+    if param['imageType'] == 'difference':
         gdfreNamed = gdf.rename(columns={'min': param['name'] + '_MIN', 'max': param['name'] + '_MAX', 'mean': param['name'] + '_MN', 'count': param['name']+ '_CNT','std': param['name']+ '_STD'})
     else:
         gdfreNamed = gdf.rename(columns={'min':param['band_move'] + '_MIN', 'max': param['band_move'] + '_MAX','mean':param['band_move'] + '_MN','count': param['band_move'] + '_CNT','std': param['band_move'] + '_STD'})
@@ -195,9 +191,9 @@ def get_temp_shp(path):
 
 def merge_shpfiles(list_of_shpfiles):
 
-    dirPath = "E:\\v1\\al_nps\\MISS\\temp6\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    if not os.path.exists(dirPath):
-        os.makedirs(dirPath)
+    #dirPath = list_of_shpfiles[1]#"E:\\v1\\al_nps\\MISS\\temp6\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    #if not os.path.exists(dirPath):
+    #    os.makedirs(dirPath)
 
     gdf_list = []
 
@@ -208,7 +204,7 @@ def merge_shpfiles(list_of_shpfiles):
 
 
     rdf = reduce(lambda x, y: pd.merge(x, y, on = ['id','Shape_Area','Shape_Leng','UNIQUE','annualID','change_occ','uniqID','year','geometry']), gdf_list)
-    rdf.to_file(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
+    rdf.to_file(dirPath+list_of_shpfiles[0][0][-8:-4]+".shp")
     #print(rdf)
 
 def main():
@@ -226,30 +222,20 @@ def main():
 
     # edit raster info dictionary
     mutated_raster_info = mutate_dic(raster_info)
-    #print(mutated_raster_info[5])
 
     # get shp file and add there file path to raster info
     param_list = make_run_params(shpPath, mutated_raster_info,1985,2020,dir)
 
-
-    #print(param_list)
-    #get_zonals(param_list[0])
     # run zonal stats
     with Pool(10) as p:
         p.map(get_zonals, param_list)
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
     list_of_shp = get_temp_shp(dir)
-    #print(list_of_shp)
-
+    print(list_of_shp)
     # map over list of lists and merge shp files
-    #print(list_of_shp)
-    #merge_shpfiles(list_of_shp[0]) # manual tester
-    
     with Pool(5) as p:
         p.map(merge_shpfiles,list_of_shp)
-
-    # Merge all year shp files back together.... Each year has different numbers of rows...
 
 if __name__ == "__main__":
     main()
