@@ -139,15 +139,19 @@ def get_zonals(param):
 
         #  read file
         tempshp = gpd.read_file(shpfilepath)
-        #print("--------")
-        # if last row is complete break out
-        if tempshp.iloc[-1][0] == None:
-            #print(shpfilepath,' exists')
-            return
-        else:
-            print("Does not exist")
+        try:
+            # if last row is complete break out
+            if tempshp.iloc[-1][0] != None:
+                print(shpfilepath)
+                print(tempshp.iloc[-1][0])
+            else:
+                return
+        except IndexError:
+            print(111)
 
 
+
+    print(shpfilepath, "   Does not exist; generating it.")
     # if not continue to zonal
 
     #print('name',param['name'],'idx',param['pose'],'year',param['df_year'],'band',param['df_band'],'bandMove',param['band_move'],'zonalBand',param['band_zonal'])
@@ -200,7 +204,7 @@ def merge_shpfiles(list_of_shpfiles):
     #    os.makedirs(dirPath)
 
     gdf_list = []
-    print(list_of_shpfiles)
+
     for shp in list_of_shpfiles:
 
         df_1 = gpd.read_file(shp)
@@ -209,7 +213,7 @@ def merge_shpfiles(list_of_shpfiles):
 
     rdf = reduce(lambda x, y: pd.merge(x, y, on = ['id','Shape_Area','Shape_Leng','UNIQUE','annualID','change_occ','uniqID','year','geometry']), gdf_list)
     rdf.to_file(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
-    print(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
+
     return
 
 
