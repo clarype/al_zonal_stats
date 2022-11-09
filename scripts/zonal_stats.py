@@ -139,11 +139,13 @@ def get_zonals(param):
 
         #  read file
         tempshp = gpd.read_file(shpfilepath)
-        print("--------")
+        #print("--------")
         # if last row is complete break out
         if tempshp.iloc[-1][0] == None:
-            print(shpfilepath,' exists')
+            #print(shpfilepath,' exists')
             return
+        else:
+            print("Does not exist")
 
 
     # if not continue to zonal
@@ -184,6 +186,7 @@ def get_temp_shp(path):
         for ee in list_of_all_shp:
             if str(e) in ee:
                 temp.append(ee)
+        temp.append(path)
         list_of_shpLists.append(temp)
 
 
@@ -191,31 +194,34 @@ def get_temp_shp(path):
 
 def merge_shpfiles(list_of_shpfiles):
 
-    #dirPath = list_of_shpfiles[1]#"E:\\v1\\al_nps\\MISS\\temp6\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    dirPath = list_of_shpfiles[-1]#"E:/v1/al_nps/MISS/temp6/" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    list_of_shpfiles.pop()
     #if not os.path.exists(dirPath):
     #    os.makedirs(dirPath)
 
     gdf_list = []
-
+    print(list_of_shpfiles)
     for shp in list_of_shpfiles:
-        df_1 = gpd.read_file(shp)#.crs =4269
-        #print(df_1.crs)
+
+        df_1 = gpd.read_file(shp)
         gdf_list.append(df_1)
 
 
     rdf = reduce(lambda x, y: pd.merge(x, y, on = ['id','Shape_Area','Shape_Leng','UNIQUE','annualID','change_occ','uniqID','year','geometry']), gdf_list)
-    rdf.to_file(dirPath+list_of_shpfiles[0][0][-8:-4]+".shp")
-    #print(rdf)
+    rdf.to_file(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
+    print(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
+    return
+
 
 def main():
 
     # csv file path
-    csvPath = "E:\\v1\\al_nps\\MISS\\miss_attributes4.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    csvPath = "E:\\v1\\al_nps\\MISS\\miss_attributes4.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
-    shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector_5070\\miss_true_disturbances.shp" #<<<<<<<<<<<<<
+    shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector_5070\\miss_true_disturbances.shp" #<<<<<<<<<<<
 
-    dir = "E:\\v1\\al_nps\\MISS\\temp6\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    dir = "E:\\v1\\al_nps\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # get raster info as a python dictionary
     raster_info = get_raster_info(csvPath)
@@ -232,7 +238,7 @@ def main():
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
     list_of_shp = get_temp_shp(dir)
-    print(list_of_shp)
+
     # map over list of lists and merge shp files
     with Pool(5) as p:
         p.map(merge_shpfiles,list_of_shp)
