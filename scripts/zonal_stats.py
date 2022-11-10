@@ -14,6 +14,7 @@ from functools import reduce
 
 
 def get_raster_info(csv_path):
+
     # read csv file as dataframe
     df = pd.read_csv(csv_path, converters={'band_move': lambda x: x.split('|')})
 
@@ -220,13 +221,17 @@ def merge_shpfiles(list_of_shpfiles):
 def main():
 
     # csv file path
-    csvPath = "E:\\v1\\al_nps\\MISS\\miss_attributes4.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    csvPath = "C:\\Users\\clary\\Documents\\al_project\\MISS\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
-    shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector_5070\\miss_true_disturbances.shp" #<<<<<<<<<<<
+    shpPath = "C:\\Users\\clary\\Documents\\al_project\\MISS\\miss_vector\\miss_true_disturbances.shp" #<<<<<<<<<<<
 
-    dir = "E:\\v1\\al_nps\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+    dir = "C:\\Users\\clary\\Documents\\al_project\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    start_year = 1985
+ 
+    end_year = 2020
+ 
     # get raster info as a python dictionary
     raster_info = get_raster_info(csvPath)
 
@@ -234,10 +239,10 @@ def main():
     mutated_raster_info = mutate_dic(raster_info)
 
     # get shp file and add there file path to raster info
-    param_list = make_run_params(shpPath, mutated_raster_info,1985,2020,dir)
+    param_list = make_run_params(shpPath, mutated_raster_info,start_year,end_year,dir)
 
     # run zonal stats
-    with Pool(10) as p:
+    with Pool(4) as p:
         p.map(get_zonals, param_list)
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
