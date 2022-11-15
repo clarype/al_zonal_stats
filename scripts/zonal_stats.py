@@ -83,10 +83,10 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
         print('index',i)
 
         # calculate the band value from the year of the dataframe
-        band = list(range(startYear,endYear+1)).index(i)
+        band = list(range(startYear,endYear+1)).index(i)+1
         max_band = list(range(startYear,endYear+1)).index(max(list(range(startYear,endYear+1))))
         min_band = 1
-
+        print(band)
         # loop over raster info and make parameter dic and append to list of params
         for e in ras_list:
 
@@ -99,8 +99,14 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
 
             # add band value to dic. the band value is calculated for the year value in the dataframe
             # ADD logic for post and pre band calculation
+            if tempdic['imageType'] == 'difference':
+                play_band = band + 1
+                if play_band <= max_band:
+                    tempdic['band_zonal'] = band + 1
+                else:
+                    continue
 
-            if tempdic['pose'] == 'pst':
+            elif tempdic['pose'] == 'pst':
                 play_band = band + int(tempdic['band_move'])
                 if play_band <= max_band:
                     tempdic['band_zonal'] = band + int(tempdic['band_move'])
@@ -131,7 +137,7 @@ def get_zonals(param):
     if not os.path.exists(dirPath):
         os.makedirs(dirPath)
 
-    # make csv file path
+    # make shp file path
     shpfilepath = dirPath+param['name'] +param['band_move']+"_"+str(param['df_year'])+".shp"
    
 
@@ -155,7 +161,7 @@ def get_zonals(param):
     print(shpfilepath, "   Does not exist; generating it.")
     # if not continue to zonal
 
-    #print('name',param['name'],'idx',param['pose'],'year',param['df_year'],'band',param['df_band'],'bandMove',param['band_move'],'zonalBand',param['band_zonal'])
+    print('name',param['name'],'idx',param['pose'],'year',param['df_year'],'band',param['df_band'],'bandMove',param['band_move'],'zonalBand',param['band_zonal'])
     stats = zonal_stats(param['df'], param['path'], geojson_out=True, band=param['band_zonal'],stats=['min', 'max', 'mean', 'count','std'])
 
     geoJson = {"type": "FeatureCollection", "features": stats}
@@ -199,7 +205,7 @@ def get_temp_shp(path):
 
 def merge_shpfiles(list_of_shpfiles):
 
-    dirPath = list_of_shpfiles[-1]#"E:/v1/al_nps/MISS/temp6/" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    dirPath = list_of_shpfiles[-1]
     list_of_shpfiles.pop()
     #if not os.path.exists(dirPath):
     #    os.makedirs(dirPath)
@@ -221,16 +227,17 @@ def merge_shpfiles(list_of_shpfiles):
 def main():
 
     # csv file path
-    csvPath = "C:\\Users\\clary\\Documents\\al_project\\MISS\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    csvPath = "E:\\v1\\al_nps\\MISS\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
-    shpPath = "C:\\Users\\clary\\Documents\\al_project\\MISS\\miss_vector\\miss_true_disturbances.shp" #<<<<<<<<<<<
+    shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector\\miss_true_disturbances.shp" #<<<<<<<<<<<
 
-    dir = "C:\\Users\\clary\\Documents\\al_project\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # out directory
+    dir = "E:\\v1\\al_nps\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     
-    start_year = 1985
+    start_year = 1985 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  
-    end_year = 2020
+    end_year = 2020 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  
     # get raster info as a python dictionary
     raster_info = get_raster_info(csvPath)
@@ -242,7 +249,7 @@ def main():
     param_list = make_run_params(shpPath, mutated_raster_info,start_year,end_year,dir)
 
     # run zonal stats
-    with Pool(4) as p:
+    with Pool(5) as p:
         p.map(get_zonals, param_list)
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
@@ -251,6 +258,8 @@ def main():
     # map over list of lists and merge shp files
     with Pool(5) as p:
         p.map(merge_shpfiles,list_of_shp)
+
+    # clean up script
 
 if __name__ == "__main__":
     main()
