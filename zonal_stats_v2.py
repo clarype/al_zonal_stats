@@ -80,14 +80,14 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
     # loop over dic of dataframes and add the dataframe to a dictionary of parameters
     for i in dict_of_regions:
     
-        print('index',i)
+        #print('index',i)
 
         # calculate the band value from the year of the dataframe
         band = list(range(startYear,endYear+1)).index(i)+1
         max_band = list(range(startYear,endYear+1)).index(max(list(range(startYear,endYear+1))))
         max_band_d = list(range(startYear,endYear)).index(max(list(range(startYear,endYear))))
         min_band = 1
-        print(band)
+        #print(band)
         # loop over raster info and make parameter dic and append to list of params
         for e in ras_list:
 
@@ -161,7 +161,7 @@ def get_zonals(param):
     print(shpfilepath, "   Does not exist; generating it.")
     # if not continue to zonal
 
-    print('name',param['name'],'idx',param['pose'],'year',param['df_year'],'band',param['df_band'],'bandMove',param['band_move'],'zonalBand',param['band_zonal'])
+    #print('name',param['name'],'idx',param['pose'],'year',param['df_year'],'band',param['df_band'],'bandMove',param['band_move'],'zonalBand',param['band_zonal'])
     stats = zonal_stats(param['df'], param['path'], geojson_out=True, band=param['band_zonal'],stats=['min', 'max', 'mean', 'count','std'])
 
     geoJson = {"type": "FeatureCollection", "features": stats}
@@ -196,7 +196,7 @@ def get_temp_shp(path,r_info):
         inpath.append(list_of_all_shp)
 
     inpath =[item for sublist in inpath for item in sublist]
-    print(inpath)
+    #print(inpath)
     
     temp_list = []
     for i in inpath:
