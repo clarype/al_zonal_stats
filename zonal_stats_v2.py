@@ -237,12 +237,34 @@ def merge_shpfiles(list_of_shpfiles):
     rdf.to_file(dirPath+list_of_shpfiles[0][-8:-4]+".shp")
 
     return
+    
+def clean_up(path,r_info):
+
+    #get the name of the difference images
+    # loop over list of images
+    search = []
+    for img in r_info:
+       if img['imageType'] == 'difference':
+            search.append(img['name'])
+
+    inpath = []
+
+            
+    for q in search:
+        list_of_all_shp = glob.glob(path+"*"+q+"*.shp")
+        inpath.append(list_of_all_shp)
+
+    inpath =[item for sublist in inpath for item in sublist]
+    #print(inpath)
+    
+    for e in inpath:
+        os.remove(e)
 
 
 def main():
 
     # csv file path
-    csvPath ="C:\\Users\clary\\Documents\\al_project\\MISS\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    csvPath ="C:\\Users\clary\\Documents\\al_project\\al_zonal_stats\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
     shpPath = "C:\\Users\clary\\Documents\\al_project\\MISS\\miss_vector\\miss_true_disturbances.shp" #<<<<<<<<<<<
@@ -275,7 +297,9 @@ def main():
         p.map(merge_shpfiles,list_of_shp)
 
     # clean up script
-
+    clean_up(dir,raster_info)
+    
+    
 if __name__ == "__main__":
     main()
     sys.exit()
