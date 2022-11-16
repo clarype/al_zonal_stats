@@ -42,7 +42,7 @@ Workflow:
 
 ![img](https://lh3.googleusercontent.com/TZDD7MeVokOj7Hy1hO4JxtWivTPaFY_HA6ASpJNaitUM7vIoQWO2HuprxwkSBIMIUNUJRzn1nLNQ2kuAWSssYSgDX3hZTL-VuwIO9tU9ZrVVhFh91XAF2v-pRSAM76rwrOcB6-WDWZG0ZHfVOxko8ZKubsST3i0Dlxksd5kcSWbkivkptwtfIMMx2eB4)
 
-1. Select the checkboxes option below and click install
+1. Select the checkboxes option below and click install. (This should not affect other python interpreters.)
 
 ![img](https://lh6.googleusercontent.com/KA6sG6JNaw-OKPDDdPJzrARlOrm9ff9Xs6sq0zOjBkIpIoxCA4pqjPggc6eP8BVYE_4xTpDEuBg1O5xBM5uR99BPw5uGju487S4koehU25xU3iDKFj-DYGKY7DKkS7fRX5n8yzwG0cq-NrIIxt-fA5MLaPpNuZAhiUbw9n9Z1ZWgK6BpClO1wTqnoGsOGQ)
 
