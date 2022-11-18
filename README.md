@@ -13,7 +13,7 @@ Workflow:
 1. Download all products 
 
 2. 1. [Anaconda executable](https://drive.google.com/file/d/1Tm0qBHEbWVF6Gm_DT3m9iOGpHfaFTqhw/view?usp=share_link) (If download does not start try a different browser.)
-   2. [Scripts and config CSV GitHub ](https://github.com/clarype/al_zonal_stats)
+   2. [Scripts and config CSV GitHub ](https://github.com/clarype/al_zonal_stats/archive/refs/heads/main.zip)
 
 3. Setup workspace 
 
