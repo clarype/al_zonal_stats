@@ -19,7 +19,6 @@ Workflow:
 
 4. 1. Make a workspace directory 
    2. Move all products to workspace directory (**Not mandatory**)
-   3. **Make a directory named “zonal_env”to contain the anaconda environment.**
 
 5. Run ‘PyEnvs-0.5-Windows-x86_64’ to install anaconda environment
 
@@ -38,7 +37,8 @@ Workflow:
 
 1. Click “I agree”
 2. Install just Me, click next 
-3. Choose the directory you created to contain the anaconda environment and click next. Copy the path for a later step
+3. Use or rename the provided installation location to install in your user directory
+4. Click next
 
 ![img](https://lh3.googleusercontent.com/TZDD7MeVokOj7Hy1hO4JxtWivTPaFY_HA6ASpJNaitUM7vIoQWO2HuprxwkSBIMIUNUJRzn1nLNQ2kuAWSssYSgDX3hZTL-VuwIO9tU9ZrVVhFh91XAF2v-pRSAM76rwrOcB6-WDWZG0ZHfVOxko8ZKubsST3i0Dlxksd5kcSWbkivkptwtfIMMx2eB4)
 
