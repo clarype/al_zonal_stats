@@ -81,19 +81,19 @@ Workflow:
 
 3. Edit the zonal stats script in a text editor 
 
-4. 1. Edit line below:
+   1. Edit line below:
 
-   2. 1. Line 224 : file path to CSV file 
-      2. Line 227 : file path to Shape file of polygons 
-      3. Line 230 : folder path to an output directory
-      4. Line 232 : raster time series start year
-      5. Line 234 : raster time series end year
+        1. Line 224 : file path to CSV file 
+        2. Line 227 : file path to Shape file of polygons 
+        3. Line 230 : folder path to an output directory
+        4. Line 232 : raster time series start year
+        5. Line 234 : raster time series end year
 
    3. Save file
 
 5. Open anaconda environment if it is not already open
 
-6. 1. Locate and double click on the BAT file *Start_PyEnv*
+   1. Locate and double click on the BAT file *Start_PyEnv*
 
    2. From the terminal change directory to the script's location.
 
@@ -103,45 +103,14 @@ Workflow:
 
 7. Outputs 
 
-8. 1. In the temp folder of your raster directory are the outputs of the program.
+   1. In the temp folder of your raster directory are the outputs of the program.
 
    2. There are two types of outputs if both difference and annual rasters were used.
 
-   3. 1. Annual outputs pertain to an individual observation and index type and difference outputs are merged into individual observations for each delta index. 
+   13. Annual outputs pertain to an individual observation and index type while Difference outputs are merged into individual observations for each Change index ran. 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### CSV file 
+### CSV File 
 
 
 
