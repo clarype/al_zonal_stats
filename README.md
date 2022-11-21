@@ -47,7 +47,7 @@ Workflow:
 ![img](https://lh6.googleusercontent.com/KA6sG6JNaw-OKPDDdPJzrARlOrm9ff9Xs6sq0zOjBkIpIoxCA4pqjPggc6eP8BVYE_4xTpDEuBg1O5xBM5uR99BPw5uGju487S4koehU25xU3iDKFj-DYGKY7DKkS7fRX5n8yzwG0cq-NrIIxt-fA5MLaPpNuZAhiUbw9n9Z1ZWgK6BpClO1wTqnoGsOGQ)
 
 1. Click next once the progress bar is completely filled. 
-2. Click finish 
+2. Click finish - If you have an issuse you can add an issuse meassage at the top of the page under "issuses" 
 3. Now the Anaconda environment is installed in your project directory.
 
 
