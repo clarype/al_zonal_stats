@@ -149,14 +149,13 @@ This CSV, named “miss_attributes.csv” contains 8 fields which control how th
 
 
 
-
-
-| path      | The full file path to a raster image                         |
+| Name      |  Discripton                                                 |
 | --------- | ------------------------------------------------------------ |
-| name      | A name to represent the raster image, must be 6 to 7 characters long.. |
+| path      | The full file path to a raster image                         |
+| name      | A name to represent the raster image, must be 6 to 7 characters long. If longer the field name will truncated.|
 | theme     | Not used                                                     |
-| imageType | This field must be one of two labels: **difference** or **annual**. Difference is an image that shows the change difference between the bands of this image. Annual is for images where the pixel value represents a time such as a single image taken at a point in time . |
-| pose      | Pose is a determiner on what bands to get zonal stats on. For bands before use **pre**, and for bands after use **pst**. |
+| imageType | This field must be one of two keywords: **difference** or **annual**. A Difference Image represents the difference between the bands of an image. The Annual keyword is for images where the pixel value represents a point in time. |
+| pose      | Pose is the direction on what bands to get zonal stats on. For bands before, previous, use **pre**, and for bands after, post, use **pst**. |
 | dype      | Not used                                                     |
 | band_move | The band values to count away from the current band to get zonal stats. This value or values pertains to the number of bands before or after an observation in the timeseries. |
 | run       | A binary operator, 1 to run and 0 not to run                 |
