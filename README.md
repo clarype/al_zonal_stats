@@ -157,7 +157,7 @@ This CSV, named “miss_attributes.csv” contains 8 fields which control how th
 | imageType | This field must be one of two keywords: **difference** or **annual**. A Difference Image represents the difference between the bands of an image. The Annual keyword is for images where the pixel value represents a point in time. |
 | pose      | Pose is the direction on what bands to get zonal stats on. For bands before, previous, use **pre**, and for bands after, post, use **pst**. |
 | dype      | Not used                                                     |
-| band_move | The band values to count away from the current band to get zonal stats. This value or values pertains to the number of bands before or after an observation in the timeseries. |
+| band_move | The band distance away from the current band to get zonal stats. This value or values pertains to the number of bands before or after an observation in the timeseries. |
 | run       | A binary operator, 1 to run and 0 not to run                 |
 
  
