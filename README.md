@@ -121,7 +121,7 @@ This CSV, named “miss_attributes.csv” contains 8 fields which control how th
 | Name      |  Discripton                                                  |
 | --------- | ------------------------------------------------------------ |
 | path      | The full file path to a raster image                         |
-| name      | A name to represent the raster image, must be 6 to 7 characters long. If longer the field name will truncated.|
+| name      | A name to represent the raster image, must be 6 to 7 characters long. If longer the field name will be truncated.|
 | theme     | Not used                                                     |
 | imageType | This field must be one of two keywords: **difference** or **annual**. A Difference Image represents the difference between the bands of an image. The Annual keyword is for images where the pixel value represents a point in time. |
 | pose      | Pose is the direction on what bands to get zonal stats on. For bands before, previous, use **pre**, and for bands after, post, use **pst**. |
