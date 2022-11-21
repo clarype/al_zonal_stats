@@ -23,28 +23,28 @@ Workflow:
 3. Run ‘PyEnvs-0.5-Windows-x86_64’ to install anaconda environment
 
    1. double click file
-   2. Click “More info” in the dialog box that appears.
+   2. Click “More info” in the dialog box that appears
 
-![img](https://lh6.googleusercontent.com/Acdi-tYgRUB2Q5PSvcGAObGXLd9NmB38DSZsRC35EiMqZzYY8hlE2HD4RFV20915eloG3AWK76KITXnlg51Fl2nKtP-xqBrK7nnE9Ku7mBYMX7gRZtPFoDalB8spaTn0pquM35KqiLSeFJIenHgFaQg894sr5vgl0behp-hY_3B7XDTZ6TVI44zSrw3Oug)
+   ![img](https://lh6.googleusercontent.com/Acdi-tYgRUB2Q5PSvcGAObGXLd9NmB38DSZsRC35EiMqZzYY8hlE2HD4RFV20915eloG3AWK76KITXnlg51Fl2nKtP-xqBrK7nnE9Ku7mBYMX7gRZtPFoDalB8spaTn0pquM35KqiLSeFJIenHgFaQg894sr5vgl0behp-hY_3B7XDTZ6TVI44zSrw3Oug)
 
    3. Click run anyway
 
-![img](https://lh6.googleusercontent.com/guncH4qST2Q4iirDG9IBgkGmBHqI6hrqlDGoxKRGSfs4ks5O3KzWYv0TqbG1pV1odOjWkmE0slhWRkCJ_4aM9FLgPDlpbGpco45ol5cr-7p6NLCtYuteOC7WZk1B9Kc7IWDnoEe83BHZYcO8rm0CcyRLVkwjxUAUSH4ZxWF15rbqj8E9pvQjsB-ogHX-aQ)
+   ![img](https://lh6.googleusercontent.com/guncH4qST2Q4iirDG9IBgkGmBHqI6hrqlDGoxKRGSfs4ks5O3KzWYv0TqbG1pV1odOjWkmE0slhWRkCJ_4aM9FLgPDlpbGpco45ol5cr-7p6NLCtYuteOC7WZk1B9Kc7IWDnoEe83BHZYcO8rm0CcyRLVkwjxUAUSH4ZxWF15rbqj8E9pvQjsB-ogHX-aQ)
 
-  4. Click next in the next dialog box that appears.
+   4. Click next in the next dialog box that appears.
 
-![img](https://lh3.googleusercontent.com/cyWvtnLhyty8YrUXArPSWyu2Fc7-cdUwow4_n6QJmOlCQN5cNTyzQ47YqNyV-8EKR9AV2VgzBif1phLfCcIDKw0pRxrNu9EDk1-zQE7OHIAXoadzdbgHDW5rie9CDSMvrudDLgVFRH84WpYt4MCjfKBujzvHMZlF-8nrPaelZV939-pp--UeuA9q7g7D3g)
+   ![img](https://lh3.googleusercontent.com/cyWvtnLhyty8YrUXArPSWyu2Fc7-cdUwow4_n6QJmOlCQN5cNTyzQ47YqNyV-8EKR9AV2VgzBif1phLfCcIDKw0pRxrNu9EDk1-zQE7OHIAXoadzdbgHDW5rie9CDSMvrudDLgVFRH84WpYt4MCjfKBujzvHMZlF-8nrPaelZV939-pp--UeuA9q7g7D3g)
 
    5. Click “I agree”
    6. Install just Me, click next 
    7. Use or rename the provided installation location to install in your user directory
    8. Click next
 
-![img](https://lh3.googleusercontent.com/TZDD7MeVokOj7Hy1hO4JxtWivTPaFY_HA6ASpJNaitUM7vIoQWO2HuprxwkSBIMIUNUJRzn1nLNQ2kuAWSssYSgDX3hZTL-VuwIO9tU9ZrVVhFh91XAF2v-pRSAM76rwrOcB6-WDWZG0ZHfVOxko8ZKubsST3i0Dlxksd5kcSWbkivkptwtfIMMx2eB4)
+   ![img](https://lh3.googleusercontent.com/TZDD7MeVokOj7Hy1hO4JxtWivTPaFY_HA6ASpJNaitUM7vIoQWO2HuprxwkSBIMIUNUJRzn1nLNQ2kuAWSssYSgDX3hZTL-VuwIO9tU9ZrVVhFh91XAF2v-pRSAM76rwrOcB6-WDWZG0ZHfVOxko8ZKubsST3i0Dlxksd5kcSWbkivkptwtfIMMx2eB4)
 
    9. Select the checkboxes option below and click install. (This should not affect other python interpreters.)
 
-![img](https://lh6.googleusercontent.com/KA6sG6JNaw-OKPDDdPJzrARlOrm9ff9Xs6sq0zOjBkIpIoxCA4pqjPggc6eP8BVYE_4xTpDEuBg1O5xBM5uR99BPw5uGju487S4koehU25xU3iDKFj-DYGKY7DKkS7fRX5n8yzwG0cq-NrIIxt-fA5MLaPpNuZAhiUbw9n9Z1ZWgK6BpClO1wTqnoGsOGQ)
+   ![img](https://lh6.googleusercontent.com/KA6sG6JNaw-OKPDDdPJzrARlOrm9ff9Xs6sq0zOjBkIpIoxCA4pqjPggc6eP8BVYE_4xTpDEuBg1O5xBM5uR99BPw5uGju487S4koehU25xU3iDKFj-DYGKY7DKkS7fRX5n8yzwG0cq-NrIIxt-fA5MLaPpNuZAhiUbw9n9Z1ZWgK6BpClO1wTqnoGsOGQ)
 
    10. Click next once the progress bar is completely filled. 
    11. Click finish - If you have an issuse you can add an issuse meassage at the top of the page under "issuses" .
@@ -56,7 +56,7 @@ Workflow:
 
    1. Edit line 1 to point to the anaconda environment directory. 
 
-![img](https://lh5.googleusercontent.com/m41QgcQnRp_RxQC5hyiVRbbjAVv1eQMCDRpRG72f5VSvrsKKYdCPsbzHEEF4qvrEa7qUkYytscmAAStmazCft2csb8FpeoIvtCu-l57kZZhoQiaBw7JqibmJI-1TOpWR7trkTdDqiIZXkeanNBGU-m40klUIwX0nkWbCdydBboZBkhYHUnQzP-pT_BnJ)
+   ![img](https://lh5.googleusercontent.com/m41QgcQnRp_RxQC5hyiVRbbjAVv1eQMCDRpRG72f5VSvrsKKYdCPsbzHEEF4qvrEa7qUkYytscmAAStmazCft2csb8FpeoIvtCu-l57kZZhoQiaBw7JqibmJI-1TOpWR7trkTdDqiIZXkeanNBGU-m40klUIwX0nkWbCdydBboZBkhYHUnQzP-pT_BnJ)
 
    2. Save file 
 
@@ -70,7 +70,7 @@ Workflow:
 
       1. The python interpreter show display something like the following:
 
-![img](https://lh5.googleusercontent.com/_yvOJGOqjHU4HZFpE7K0mTH99MNarfL8khxxsEWb4O_3bTkALg5F34QwrmocP5KOzNVD0d8-yce4Mq6lasVNai_QyoScUWJQg4Kmd4bWx5o0gA2LI8TEZ8aV2M3pRciTHO0kszhFDuPNjUZkAKkmbzUB5K2at7oy9EC7IeCMIeENEX8BpxBQ3rO9ARJnmQ)
+   ![img](https://lh5.googleusercontent.com/_yvOJGOqjHU4HZFpE7K0mTH99MNarfL8khxxsEWb4O_3bTkALg5F34QwrmocP5KOzNVD0d8-yce4Mq6lasVNai_QyoScUWJQg4Kmd4bWx5o0gA2LI8TEZ8aV2M3pRciTHO0kszhFDuPNjUZkAKkmbzUB5K2at7oy9EC7IeCMIeENEX8BpxBQ3rO9ARJnmQ)
 
       2. Enter “exit()” into the terminal to exit the python interpreter
       3.You can leave the terminal window open if you are going to be running the script or you can close the terminal and open it later.
