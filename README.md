@@ -118,7 +118,7 @@ This CSV, named “miss_attributes.csv” contains 8 fields which control how th
 
 
 
-| Name      |  Discripton                                                 |
+| Name      |  Discripton                                                  |
 | --------- | ------------------------------------------------------------ |
 | path      | The full file path to a raster image                         |
 | name      | A name to represent the raster image, must be 6 to 7 characters long. If longer the field name will truncated.|
