@@ -77,7 +77,7 @@ Workflow:
 
 1. Open and Edit your CSV to reflect your raster layers.
 
-2. 1. [CSV field descriptions ](https://docs.google.com/document/d/1fFuZTMBCehp4FO2wQbpBZcJVbik-pitcykELqBy4W1s/edit#heading=h.qq0vho4rce4f)
+   1. From more information there is a feild description table at the end of this document. 
 
 3. Edit the zonal stats script in a text editor 
 
