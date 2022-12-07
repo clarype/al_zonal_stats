@@ -83,11 +83,11 @@ Workflow:
 
    1. Edit line below:
 
-        1. Line 224 : file path to CSV file 
-        2. Line 227 : file path to Shape file of polygons 
-        3. Line 230 : folder path to an output directory
-        4. Line 232 : raster time series start year
-        5. Line 234 : raster time series end year
+        1. Line 267 : file path to CSV file 
+        2. Line 270 : file path to Shape file of polygons 
+        3. Line 273 : folder path to an output directory
+        4. Line 275 : raster time series start year
+        5. Line 277 : raster time series end year
 
    3. Save file
 
