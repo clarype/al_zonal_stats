@@ -41,7 +41,7 @@ def mutate_dic(ras_info):
             # make copy of dic
             tempdic = dic.copy()
 
-            # add band move value to dic copy
+            # add band move value to dic copy 
             tempdic['band_move'] = "0"
 
             # append mutated tempdic to list
