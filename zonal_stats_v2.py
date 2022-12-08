@@ -240,13 +240,14 @@ def merge_shpfiles(list_of_shpfiles):
     
 def clean_up(path,r_info):
 
-    #get the name of the difference images
+ #get the name of the difference images
     # loop over list of images
     search = []
     for img in r_info:
        if img['imageType'] == 'difference':
             search.append(img['name'])
-
+    if len(search) == 0:
+        return []
     inpath = []
 
             
@@ -285,19 +286,21 @@ def main():
     # get shp file and add there file path to raster info
     param_list = make_run_params(shpPath, mutated_raster_info,start_year,end_year,dir)
 
-    # run zonal stats
+       # run zonal stats
     with Pool(5) as p:
         p.map(get_zonals, param_list)
 
     # get shp files and group by year -- returns a list of lists -- the child lists are lists of shp file paths
     list_of_shp = get_temp_shp(dir,raster_info)
 
-    # map over list of lists and merge shp files
-    with Pool(5) as p:
-        p.map(merge_shpfiles,list_of_shp)
+    # if there are no delta shp file to merge dont merge them
+    if len(list_of_shp) > 0:
+    
+        # map over list of lists and merge shp files
+        with Pool(5) as p:
+            p.map(merge_shpfiles,list_of_shp)
 
     # clean up script
-    clean_up(dir,raster_info)
     
     
 if __name__ == "__main__":
