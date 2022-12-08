@@ -188,7 +188,8 @@ def get_temp_shp(path,r_info):
     for img in r_info:
        if img['imageType'] == 'difference':
             search.append(img['name'])
-    
+    if len(search) == 0:
+        return []
     inpath = []
     
     for q in search:
@@ -246,8 +247,7 @@ def clean_up(path,r_info):
     for img in r_info:
        if img['imageType'] == 'difference':
             search.append(img['name'])
-    if len(search) == 0:
-        return []
+
     inpath = []
 
             
