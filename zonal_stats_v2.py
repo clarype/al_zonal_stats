@@ -247,6 +247,8 @@ def clean_up(path,r_info):
     for img in r_info:
        if img['imageType'] == 'difference':
             search.append(img['name'])
+    if len(search) == 0:
+        return []
 
     inpath = []
 
@@ -265,13 +267,13 @@ def clean_up(path,r_info):
 def main():
 
     # csv file path
-    csvPath ="C:\\Users\clary\\Documents\\al_project\\al_zonal_stats\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    csvPath ="E:\\v1\\al_nps\\zonal_stats\\miss_attributes.csv" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     # shp file path
-    shpPath = "C:\\Users\clary\\Documents\\al_project\\MISS\\miss_vector\\miss_true_disturbances.shp" #<<<<<<<<<<<
+    shpPath = "E:\\v1\\al_nps\\MISS\\miss_vector\\miss_true_disturbances.shp" #<<<<<<<<<<<
 
     # out directory
-    dir = "C:\\Users\clary\\Documents\\al_project\\MISS\\temp\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    dir = "E:\\v1\\al_nps\\MISS\\results\\" #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     
     start_year = 1985 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  
