@@ -301,6 +301,7 @@ def main():
             p.map(merge_shpfiles,list_of_shp)
 
     # clean up script
+    clean_up(dir,raster_info)
     
     
 if __name__ == "__main__":
