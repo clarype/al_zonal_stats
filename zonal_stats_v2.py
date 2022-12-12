@@ -16,7 +16,7 @@ import os
 import glob
 from functools import reduce
 
-
+# Tihs function gets raster information from a CSV file if raster row is turned on 
 def get_raster_info(csv_path):
 
     # read csv file as dataframe
@@ -31,27 +31,28 @@ def get_raster_info(csv_path):
     # return list of dictionaries
     return df_dic
 
+# This function 
 def mutate_dic(ras_info):
 
-    # new mutated dictionary
+    # a list of store the new mutated dictionary
     out_dic_list = []
 
-    # loop over list
+    # loop over list a list of dictionary. Each dictionary contians raster informatino ... file path, raster name, targt band distances, etc
     for dic in ras_info:
 
-        # if band move only has a zero
+        # if the band move value, the distance from the target year to get stats, is 0 and is the only value do this 
         if len(dic['band_move']) == 1 and dic['band_move'][0] == '0':
 
             # make copy of dic
             tempdic = dic.copy()
 
-            # add band move value to dic copy 
+            # add band move value to the dictionary copy 
             tempdic['band_move'] = "0"
 
-            # append mutated tempdic to list
+            # append the copied dictionary to the list that will store the mutated dictionaries
             out_dic_list.append(tempdic)
 
-        # if band move has a list of values
+        # if band move has a list of values do this
         else:
 
             # get the band move value list
@@ -71,6 +72,7 @@ def mutate_dic(ras_info):
 
     return out_dic_list
 
+#
 def make_run_params(shp,ras_list,startYear,endYear,root):
 
     # read in shp file as geo dataframe
