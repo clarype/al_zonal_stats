@@ -78,9 +78,10 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
     # read in shp file as geo dataframe
     shp_gpd = gpd.read_file(shp)
 
-    # split geo dataframe into list of dataframes based on year values
+    # split geo dataframe into dictionary of dataframes based on year values where the key is the year value
     dict_of_regions = {k: v for k, v in shp_gpd.groupby('year')}
 
+    # empty list of to be populated with  
     param = []
 
     # loop over dic of dataframes and add the dataframe to a dictionary of parameters
@@ -167,17 +168,30 @@ def get_zonals(param):
     print(shpfilepath, "   Does not exist; generating it.")
     # if not continue to zonal
 
-    #print('name',param['name'],'idx',param['pose'],'year',param['df_year'],'band',param['df_band'],'bandMove',param['band_move'],'zonalBand',param['band_zonal'])
+    # run zonal stats on year dataframe and raster 
     stats = zonal_stats(param['df'], param['path'], geojson_out=True, band=param['band_zonal'],stats=['min', 'max', 'mean', 'count','std'])
 
+    # init json object
     geoJson = {"type": "FeatureCollection", "features": stats}
+    
+    # python object to json string
     json_object = json.dumps(geoJson)
+    
+    # reads json string as geo pandas dataframe
     gdf = gpd.read_file(json_object)
+    
+    # condistional for delta images
     if param['imageType'] == 'difference':
+     
+        #if delta image rename columns
         gdfreNamed = gdf.rename(columns={'min': param['name'] + '_MIN', 'max': param['name'] + '_MAX', 'mean': param['name'] + '_MN', 'count': param['name']+ '_CNT','std': param['name']+ '_STD'})
+    
     else:
+        
+        # else  not delta image rename columns 
         gdfreNamed = gdf.rename(columns={'min':param['band_move'] + '_MIN', 'max': param['band_move'] + '_MAX','mean':param['band_move'] + '_MN','count': param['band_move'] + '_CNT','std': param['band_move'] + '_STD'})
-
+   
+    #
     width = gdfreNamed.shape[1]
 
     gdfreNamed.loc[len(gdfreNamed.index)] = [None] * width
