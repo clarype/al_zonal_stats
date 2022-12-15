@@ -4,10 +4,9 @@
 
 This program calculates zonal statistics for polygons of a shapefile over one or more raster datasets. The raster datasets should be of a temporal stack; that is, each band in a raster dataset must pertain to an observation in time or change in time (delta images). These two types of raster datasets are denoted in a CSV file by keywords .The CSV file contains raster information; such as, raster location, raster type, zonal offset, and more information can be obtained at the end of this document. The input Shapefile must be of polygons attributed with a *year* field. The year field is used to align the polygons with the correct band of the raster being used in the zonal calculation. The program outputs a shapefile for each observation in the timeseries. The delta images are merged for each matching observation while the single observation shapefiles are not. 
 
-
+It should be noted that the zonal stats script does not need the executable conda enviroment to run if you already have a conda enviroment in which you can install packages. 
 
 Workflow:
-
 
 
 1. Download all products 
