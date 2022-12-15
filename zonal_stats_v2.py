@@ -111,40 +111,67 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
             # add workspace folder path to dataframe/parameter dictionary 
             tempdic['root'] = root
 
-            # if the raster info row has a pst in the pose field the dataframe/parameter dictionary get a band_move value  
+            # <for annual images> if the raster info row has a pst in the pose field the dataframe/parameter dictionary get a band_move value  
             if tempdic['pose'] == 'pst':
+                
                 # calculates the band move value. the band value to perform zonal stats
                 play_band = band + int(tempdic['band_move'])
+                
                 # checks to see if the band value is possible (avaiable in the raster stack)
                 if play_band <= max_band:
-                    # asigns the band value to dataframe/parameter dictionary
+                    
+                    # asigns the band value to the dataframe/parameter dictionary
                     tempdic['band_zonal'] = band + int(tempdic['band_move'])
+                
                 else:
                     continue
-            # if the raster info row has a pst in the pose field the dataframe/parameter dictionary get a band_move value       
+                    
+            # <for annual iamages> if the raster info row has a pre in the pose field the dataframe/parameter dictionary get a band_move value       
             elif tempdic['pose'] == 'pre':
+                
+                # calculates the band move value. the band value to perform zonal stats
                 play_band = band - int(tempdic['band_move'])
+                
+                # checks to see if the band value is possible (avaiable in the raster stack)
                 if play_band >= min_band:
+                    
+                    # asigns the band value to the dataframe/parameter dictionary
                     tempdic['band_zonal'] = band - int(tempdic['band_move'])
+                
                 else:
+                    
                     continue
+                    
+            # < for delta (difference images)>  if the raster info is not a annual image the dataframe/parameter 
+            # dictionary get a band_move value -1 to adjust for the delta image which is a band short 
             else:
+                
+                # calculates the band move value. the band value to perform zonal stats
                 play_band = band - 1 
+                
+                 # checks to see if the band value is possible (avaiable in the raster stack)
                 if play_band <= max_band:
+                    
+                    # asigns the band value to the dataframe/parameter dictionary
                     tempdic['band_zonal'] = band - 1
+                
                 else:
+                    
                     continue
 
+            # asigns the year value to the dataframe/parameter dictionary
             tempdic['df_year'] = i
 
+            # asigns the year/band value to the dataframe/parameter dictionary
             tempdic['df_band'] = band
 
-            # add mutated dic to list
+            # adds the dataframe/parameter to list of the dataframe/parameter dictionaries 
             param.append(tempdic)
 
-    # return list of dics
+    # return list of dictionaries
     return param
 
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<here
 def get_zonals(param):
     # temp !! this should be removed later as the csv should have full paths
     dirPath = param['root']
