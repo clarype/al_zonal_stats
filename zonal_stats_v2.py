@@ -72,7 +72,8 @@ def mutate_dic(ras_info):
 
     return out_dic_list
 
-#
+# This function makes a list of dictionaries where each dictionary has a shp dataframe and all the associated parameters to 
+# get zonal stats. The parameter include keys such as the band to run zonal stats on and what dictory to store the data in.   
 def make_run_params(shp,ras_list,startYear,endYear,root):
 
     # read in shp file as geo dataframe
@@ -81,40 +82,46 @@ def make_run_params(shp,ras_list,startYear,endYear,root):
     # split geo dataframe into dictionary of dataframes based on year values where the key is the year value
     dict_of_regions = {k: v for k, v in shp_gpd.groupby('year')}
 
-    # empty list of to be populated with  
+    # empty list of to be populated with dataframe/parameter dictionaries  
     param = []
 
-    # loop over dic of dataframes and add the dataframe to a dictionary of parameters
+    # loop over dictionary of dataframes and adds the dataframe to a dictionary with parameters for that dataframe
     for i in dict_of_regions:
     
-        #print('index',i)
-
-        # calculate the band value from the year of the dataframe
+        # calculate the band value from the year of the dataframe, the start year and end year arguments. 
         band = list(range(startYear,endYear+1)).index(i)+1
+        
+        # finds the maxiimum/min band value to make sure we don't ask for something we dont have------------------  
         max_band = list(range(startYear,endYear+1)).index(max(list(range(startYear,endYear+1))))
+        # for delta images
         max_band_d = list(range(startYear,endYear)).index(max(list(range(startYear,endYear))))
+        # the first band so we dont ask for less than it  
         min_band = 1
-        #print(band)
-        # loop over raster info and make parameter dic and append to list of params
+        #---------------------------------------------------------------------------------------------------------
+        
+        # loop over raster info and add parameter to dataframe/dictionary list
         for e in ras_list:
 
-            # make copy of dictionary
+            # make copy of raster info dictionary. this is the source of the parameters for each dataframe
             tempdic = e.copy()
 
-            # add dataframe to dic copy
+            # add dataframe to dataframe/parameter dictionary
             tempdic['df'] = dict_of_regions[i]
+            
+            # add workspace folder path to dataframe/parameter dictionary 
             tempdic['root'] = root
 
-            # add band value to dic. the band value is calculated for the year value in the dataframe
-            # ADD logic for post and pre band calculation
-
-
+            # if the raster info row has a pst in the pose field the dataframe/parameter dictionary get a band_move value  
             if tempdic['pose'] == 'pst':
+                # calculates the band move value. the band value to perform zonal stats
                 play_band = band + int(tempdic['band_move'])
+                # checks to see if the band value is possible (avaiable in the raster stack)
                 if play_band <= max_band:
+                    # asigns the band value to dataframe/parameter dictionary
                     tempdic['band_zonal'] = band + int(tempdic['band_move'])
                 else:
                     continue
+            # if the raster info row has a pst in the pose field the dataframe/parameter dictionary get a band_move value       
             elif tempdic['pose'] == 'pre':
                 play_band = band - int(tempdic['band_move'])
                 if play_band >= min_band:
